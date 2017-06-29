@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,51 +15,55 @@
         <div id="app"></div>
         <script type="text/babel" >
         var CountStateComponent=React.createClass({
+        alert:function(){
+        alert("ADDITION!");
+        },
         resetCount:function(){        
         this.setState({
         count: 0
         })
         },
-        callone:function(event){
+        incrementCount:function(value){
         this.setState({
-        count: this.state.count+1
+        count:this.state.count +value
         })
-        console.log("name changed called");
-        },
-        callfive:function(event){
-        this.setState({
-        count: this.state.count+5
-        })
-        console.log("name changed called");
-        },
-        callten:function(event){
-        this.setState({
-        count: this.state.count+10
-        })
-        console.log("count changed called");
         },
         getInitialState: function(){
             return{
             count: 0
             }
         },
+        getDefaultProps:function(){
+        return{
+        valueOne:1,
+        valueTwo:5,
+        valueThree:10,
+        text:"ADD"
+        }
+        },
             render: function(){
             //console.log(this.state);
                 return (
                 <div>
                     <h1 className="heading">COUNT: {this.state.count}</h1>
-                    <button className="btnone" onClick={this.callone}>1</button>
-                    <button className="btnfive" onClick={this.callfive}>5</button>
-                    <button className="btnten" onClick={this.callten}>10</button>
-                    <button className="btnreset" onClick={this.resetCount}>Reset Input</button>
+                    <Button style="btnone" text={`${this.props.text} ${this.props.valueOne}`} value={this.props.valueOne} clickHandler={this.incrementCount.bind(this,this.props.valueOne)}/>
+                    <Button style="btnfive" text={`${this.props.text} ${this.props.valueTwo}`} value={this.props.valueTwo} clickHandler={this.incrementCount.bind(this,this.props.valueTwo)}/>
+                    <Button style="btnten" text={`${this.props.text} ${this.props.valueThree}`} value={this.props.valueThree} clickHandler={this.incrementCount.bind(this,this.props.valueThree)}/>
+                    <Button text="Alert!" clickHandler={this.alert}/>
+                    <Button style="btnreset" text="RESET" clickHandler={this.resetCount}/>
                 </div>
                 
                 )   
             }
         });
-        
+
+        var Button =function(props){
+        return(
+        <button className={props.style} value={props.value} onClick={props.clickHandler}>{props.text}</button>
+        )
+        };
         ReactDOM.render(
-        <CountStateComponent />,
+        <CountStateComponent valueOne={100} valueTwo={1000} valueThree={10000} />,
         document.getElementById('app')
         );
         </script>
