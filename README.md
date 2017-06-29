@@ -1,2 +1,2 @@
 # React-Practice
-Learnign React from Scartch
+Learning React from Scartch
