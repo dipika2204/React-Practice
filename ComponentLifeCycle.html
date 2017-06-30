@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>REACT Count Challenge</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.2/browser.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+         <link href="CSS/style.css" rel="stylesheet">
+        
+    </head>
+    <body>
+        <div id="app"></div>
+        <script type="text/babel" >
+        var LifecycleComponent=React.createClass({
+        // 1 called once -before the component is rendered -Happens when a class is created
+        getDefaultProps:function(){
+        console.log("Default Propertities");
+        },
+        //2 called once -before the component is rendered -Happens when a class is created
+        getInitialState:function(){
+        console.log("INITIAL STATE");
+        return({
+        count:0
+        })
+        },
+        //3 called once -before the component is rendered
+        componentWillMount:function(){
+        //no connection to DOM but has connection of props and state
+        console.log(this.state);
+        console.log(this.props);
+        console.log("Mounting");
+        },
+        increment:function(){
+        this.setState({
+        count:this.state.count + 1
+        })
+        },
+        //4 this happens whenever our component changes
+        render:function(){
+        console.log("RENDERING");
+        return(
+        <button onClick={this.increment}>{this.state.count}</button>
+        )
+        },
+        //5 this happens only once -after the component has rendered
+        componentDidMount:function(){
+        console.log("Component has rendered");
+        console.log(this.state);
+        console.log(this.props);
+        console.log(ReactDOM.findDOMNode(this));
+        this.interval=setInterval(this.increment,1000);
+        },
+        //6 this happens once -after the component has rendered
+        componentWillUnmount:function(){
+        clearInterval(this.interval);
+        console.log("UNmounted");
+
+        }
+
+        });
+        
+        var LifecycleContainer=React.createClass({
+        mount:function(){
+        ReactDOM.render(
+        <LifecycleComponent />,
+        document.getElementById('renderHere')
+        );
+        },
+        unmount:function(){
+        ReactDOM.unmountComponentAtNode(document.getElementById('renderHere'));
+        },
+        render:function(){
+        console.log("LifeCycleContainer Rendered");
+        return(
+        <div>
+        <button onClick={this.mount}>Mount</button>
+        <button onClick={this.unmount}>UNMOUNT</button>
+        <div id="renderHere"></div>
+        </div>
+        )
+        }
+        });        
+        
+        
+        ReactDOM.render(
+        <LifecycleContainer />,
+        document.getElementById('app')
+        );
+        </script>
+    </body>
+</html>
