@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8"/>
+        <title>REACT Count Challenge</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.7/react-dom.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.2/browser.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+         <link href="CSS/style.css" rel="stylesheet">
+        
+    </head>
+    <body>
+        <div id="app"></div>
+        <script type="text/babel" >
+        var LikesComponent=React.createClass({
+        updateLikes:function(){
+        ReactDOM.render(
+        <LikesComponent likes={this.props.likes +1}/>,
+        document.getElementById('app')
+        )
+        },
+        getDefaultProps:function(){
+        return({
+        likes:0
+        })
+        },
+        componentWillReceiveProps:function(nextProps){
+        console.log(nextProps)
+        this.setState({
+        popular:nextProps.likes>=10
+        })
+        },       
+        getInitialState:function(){
+        return({
+        popular:false
+        })
+        },
+        shouldComponentUpdate:function(nextProps,nextState){
+        console.log("Should I update?");
+        console.log("NEXT PROPS",nextProps);
+        console.log("NEXT STATE",nextState);
+        return nextProps.likes %2==0;
+        },
+        render:function(){
+        return(
+        <div>
+        <h1>{this.state.popular? "I'm popular" : null}</h1>
+        <button className="btnone" onClick={this.updateLikes}>Likes :{this.props.likes}</button>
+        </div>
+        )
+        },
+        componentDidUpdate:function(prevProps,prevState){
+        console.log("PREVIOUS PROPS",prevProps);
+        console.log("PREVIOUS STATE",prevState);
+        }
+        });
+
+        ReactDOM.render(
+        <LikesComponent />,
+        document.getElementById('app')
+        );
+        </script>
+    </body>
+</html>
